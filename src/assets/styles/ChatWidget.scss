@@ -1,0 +1,311 @@
+$color-danger: #f5886e;
+$color-success: #a3d063;
+
+@mixin buttonStyles($color) {
+    background-color: $color;
+    border: 2px solid $color;
+
+    &:hover {
+        color: $color;
+        background-color: #fff;
+    }
+}
+
+@mixin resetButtonStyles() {
+    outline: 0;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    display: flex;
+}
+
+@mixin avatarStyles() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 12px;
+    color: white;
+}
+
+.ChatWidget {
+    position: absolute;
+    width: 100%;
+    max-width: 400px;
+    height: 500px;
+    border-radius: 10px;
+    background-color: #fff;
+    right: 24px;
+    bottom: 24px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    background-color: #f8f8f8;
+    overflow: hidden;
+
+    &__buttons-wrapper {
+        margin-top: 20px;
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    &__button {
+        border-radius: 50px;
+        color: #fff;
+        transition: all 0.2s linear;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 300;
+        padding: 10px 12px;
+    }
+
+    &__button--danger {
+        @include buttonStyles($color-danger);
+    }
+
+    &__button--success {
+        @include buttonStyles($color-success);
+    }
+
+    &__header {
+        background-color: #fff;
+        width: 100%;
+        box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+
+        &-title {
+            text-align: center;
+            color: #bcbdc0;
+            font-size: 20px;
+        }
+
+        &-close-button {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            margin-right: 10px;
+            position: relative;
+            color: white;
+            background-color: #f5886e;
+            border: none;
+        }
+    }
+
+    &__messages {
+        position: relative;
+        list-style: none;
+        padding: 20px 10px 0 10px;
+        margin: 0;
+        height: 347px;
+        overflow: scroll;
+    }
+
+    &__message {
+        $message-class: &;
+        clear: both;
+        overflow: hidden;
+        margin-bottom: 20px;
+        transition: all 0.5s linear;
+        opacity: 0;
+
+        &-image {
+            cursor: pointer;
+            margin-top: 12px;
+        }
+
+        &.appeared {
+            opacity: 1;
+        }
+
+        &-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: inline-block;
+
+            &.comprar::after {
+                content: 'COMP';
+            }
+
+            &.vender::after {
+                content: 'VEND';
+            }
+        }
+
+        &-text-wrapper {
+            display: inline-block;
+            padding: 20px;
+            border-radius: 6px;
+            width: calc(100% - 85px);
+            min-width: 100px;
+            position: relative;
+
+            &::after,
+            &::before {
+                top: 18px;
+                border: solid transparent;
+                content: ' ';
+                height: 0;
+                width: 0;
+                position: absolute;
+                pointer-events: none;
+            }
+
+            &::after {
+                border-width: 13px;
+                margin-top: 0px;
+            }
+
+            &::before {
+                border-width: 15px;
+                margin-top: -2px;
+            }
+        }
+
+        &-text {
+            font-size: 18px;
+            font-weight: 300;
+            color: aqua;
+        }
+
+        &.left {
+            #{$message-class}-avatar {
+                background-color: #f5886e;
+                float: left;
+                @include avatarStyles();
+                &.comprar::after {
+                    content: 'COMP';
+                }
+
+                &.vender::after {
+                    content: 'VEND';
+                }
+            }
+
+            // #{$message-class}-avatar::after {
+            //     content: 'COMP';
+            // }
+
+            #{$message-class}-text {
+                color: #c48843;
+            }
+
+            #{$message-class}-text-wrapper {
+                background-color: #ffe6cb;
+                margin-left: 20px;
+
+                &::after,
+                &::before {
+                    right: 100%;
+                    border-right-color: #ffe6cb;
+                }
+            }
+        }
+
+        &.right {
+            #{$message-class}-avatar {
+                background-color: #fdbf68;
+                float: right;
+                @include avatarStyles();
+                &.comprar::after {
+                    content: 'COMP';
+                }
+
+                &.vender::after {
+                    content: 'VEND';
+                }
+            }
+
+            #{$message-class}-avatar::after {
+                content: 'YOU';
+            }
+
+            #{$message-class}-text {
+                color: #45829b;
+            }
+
+            #{$message-class}-text-wrapper {
+                background-color: #c7eafc;
+                margin-right: 20px;
+                float: right;
+
+                &::after,
+                &::before {
+                    left: 100%;
+                    border-left-color: #c7eafc;
+                }
+            }
+        }
+    }
+
+    &__action-bar {
+        position: relative;
+        width: 100%;
+        background-color: #fff;
+        padding: 20px 20px;
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        // flex-direction: row;
+        justify-content: space-between;
+        gap: 6px;
+
+        &-input-wrapper {
+            display: inline-block;
+            height: 50px;
+            border-radius: 25px;
+            border: 1px solid #bcbdc0;
+            width: calc(100% - 160px);
+            position: relative;
+            padding: 0 20px;
+            flex: 1;
+            display: flex;
+            // align-items: center;
+        }
+
+        &-input {
+            border: none;
+            height: 100%;
+            box-sizing: border-box;
+            width: calc(100% - 40px);
+            position: absolute;
+            outline-width: 0;
+            color: gray;
+            cursor: text;
+        }
+
+        &-attachment-native {
+            display: none;
+        }
+
+        &-attachment {
+            @include resetButtonStyles();
+            font-size: 24px;
+
+            &:disabled {
+                cursor: not-allowed !important;
+                opacity: 0.5;
+            }
+        }
+
+        &-remove-attachment {
+            @include resetButtonStyles();
+            font-size: 24px;
+            color: crimson;
+        }
+    }
+    @media screen and(max-width: 448px) {
+        & {
+            max-width: calc(100% - 10px);
+            right: 5px;
+            bottom: 5px;
+        }
+    }
+}
